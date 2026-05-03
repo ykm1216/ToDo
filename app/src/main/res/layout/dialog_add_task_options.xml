@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:padding="8dp">
+
+    <LinearLayout android:id="@+id/optionNewTodo" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="New To-Do" android:textStyle="bold" android:textColor="#1E293B" android:textSize="16sp"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Quickly add a to-do to your inbox." android:textColor="#64748B" android:textSize="13sp"/>
+    </LinearLayout>
+
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E2E8F0"/>
+
+    <LinearLayout android:id="@+id/optionNewProject" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="New Project" android:textStyle="bold" android:textColor="#1E293B" android:textSize="16sp"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Organize a goal with specific tasks and deadlines." android:textColor="#64748B" android:textSize="13sp"/>
+    </LinearLayout>
+
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E2E8F0"/>
+
+    <LinearLayout android:id="@+id/optionNewArea" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="New Area" android:textStyle="bold" android:textColor="#1E293B" android:textSize="16sp"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Group your projects and tasks by life category." android:textColor="#64748B" android:textSize="13sp"/>
+    </LinearLayout>
+
+</LinearLayout>

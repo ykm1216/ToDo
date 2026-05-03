@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:padding="16dp">
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+        <CheckBox android:id="@+id/checkboxNewTodo" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <EditText android:id="@+id/edittextTodoTitle" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="New To-Do" android:background="@null" android:textSize="16sp" android:textColor="#1E293B" android:layout_marginStart="8dp"/>
+        <ImageView android:id="@+id/imageviewCloseTodo" android:layout_width="24dp" android:layout_height="24dp" android:src="@android:drawable/ic_menu_close_clear_cancel"/>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/edittextTodoNotes"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:hint="Add notes"
+        android:background="@null"
+        android:gravity="top"
+        android:textColor="#4A5568"
+        android:layout_marginTop="8dp"/>
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginTop="8dp">
+        <ImageView android:id="@+id/imageviewCalendarIcon" android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/calendar_icon" android:layout_marginEnd="16dp"/>
+        <ImageView android:id="@+id/imageviewTagIcon" android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/check_icon" android:layout_marginEnd="16dp"/>
+        <View android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"/>
+        <Button android:id="@+id/buttonSaveTodo" android:layout_width="wrap_content" android:layout_height="40dp" android:text="Save" android:backgroundTint="#1E293B" android:textColor="#FFFFFF" android:textAllCaps="false"/>
+    </LinearLayout>
+
+</LinearLayout>
