@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:padding="16dp">
+
+    <!-- Header: project icon + "Add to Project" + X -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="8dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/project_active"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="Project"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Add to Project"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#1E293B"/>
+
+        <ImageView
+            android:id="@+id/imageviewCloseProject"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/x"
+            android:contentDescription="Close"/>
+    </LinearLayout>
+
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E2E8F0"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- Project list injected dynamically -->
+    <LinearLayout
+        android:id="@+id/linearlayoutProjectList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"/>
+
+    <!-- Add New Project -->
+    <TextView
+        android:id="@+id/textviewAddNewProject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+ Add New Project"
+        android:textColor="#1E293B"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:paddingTop="16dp"
+        android:paddingBottom="8dp"/>
+
+</LinearLayout>

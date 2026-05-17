@@ -14,16 +14,16 @@
         android:gravity="center_vertical">
 
         <CheckBox
-            android:id="@+id/checkboxNewTodo"
+            android:id="@+id/checkboxNewProject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <EditText
-            android:id="@+id/edittextTodoTitle"
+            android:id="@+id/edittextProjectTitle"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:hint="New To-Do"
+            android:hint="New Project"
             android:background="@null"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -32,7 +32,7 @@
             android:layout_marginStart="8dp"/>
 
         <ImageView
-            android:id="@+id/imageviewCloseTodo"
+            android:id="@+id/imageviewCloseProject"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/x"
@@ -48,7 +48,7 @@
 
     <!-- Notes -->
     <EditText
-        android:id="@+id/edittextTodoNotes"
+        android:id="@+id/edittextProjectNotes"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:hint="Add notes"
@@ -58,7 +58,7 @@
         android:textColorHint="#94A3B8"
         android:textSize="14sp"/>
 
-    <!-- Bottom action row: icons + Save -->
+    <!-- Bottom action row -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -66,44 +66,32 @@
         android:gravity="center_vertical"
         android:layout_marginTop="8dp">
 
-        <!-- Calendar (active color icon) -->
         <ImageView
-            android:id="@+id/imageviewCalendarIcon"
+            android:id="@+id/imageviewProjectCalendarIcon"
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:src="@drawable/calendar_active"
             android:layout_marginEnd="16dp"
             android:contentDescription="Set date"/>
 
-        <!-- Tag / Label (label.png = active color) -->
         <ImageView
-            android:id="@+id/imageviewTagIcon"
+            android:id="@+id/imageviewProjectTagIcon"
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:src="@drawable/label"
             android:layout_marginEnd="16dp"
             android:contentDescription="Set tag"/>
 
-        <!-- Project (project-active icon) -->
-        <ImageView
-            android:id="@+id/imageviewProjectIcon"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:src="@drawable/project_active"
-            android:layout_marginEnd="0dp"
-            android:contentDescription="Add to project"/>
-
         <View android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"/>
 
         <Button
-            android:id="@+id/buttonSaveTodo"
+            android:id="@+id/buttonSaveProject"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:text="Save"
             android:backgroundTint="#1E293B"
             android:textColor="#FFFFFF"
-            android:textAllCaps="false"
-            android:cornerRadius="20dp"/>
+            android:textAllCaps="false"/>
     </LinearLayout>
 
 </LinearLayout>

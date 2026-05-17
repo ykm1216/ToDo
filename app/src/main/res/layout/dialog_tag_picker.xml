@@ -7,7 +7,7 @@
     android:padding="8dp">
 
     <LinearLayout
-        android:id="@+id/optionNewTodo"
+        android:id="@+id/optionTagInbox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -15,14 +15,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New To-Do"
+            android:text="Inbox"
             android:textStyle="bold"
             android:textColor="#1E293B"
             android:textSize="16sp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Quickly add a to-do to your inbox."
+            android:text="Default inbox for quick captures."
             android:textColor="#64748B"
             android:textSize="13sp"/>
     </LinearLayout>
@@ -30,7 +30,7 @@
     <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E2E8F0"/>
 
     <LinearLayout
-        android:id="@+id/optionNewProject"
+        android:id="@+id/optionTagUpcoming"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -38,14 +38,37 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Project"
+            android:text="Upcoming"
             android:textStyle="bold"
             android:textColor="#1E293B"
             android:textSize="16sp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Organize a goal with specific tasks and deadlines."
+            android:text="Organize or schedule when you have time."
+            android:textColor="#64748B"
+            android:textSize="13sp"/>
+    </LinearLayout>
+
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E2E8F0"/>
+
+    <LinearLayout
+        android:id="@+id/optionTagAnytime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Anytime"
+            android:textStyle="bold"
+            android:textColor="#1E293B"
+            android:textSize="16sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save open-ended goals and ideas to tackle whenever you want."
             android:textColor="#64748B"
             android:textSize="13sp"/>
     </LinearLayout>

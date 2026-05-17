@@ -1,39 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:background="#FFFFFF"
     tools:context=".screens.dashboard.DashboardActivity">
 
-    <LinearLayout
+    <!-- SEARCH -->
+    <EditText
+        android:id="@+id/edittextSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="12dp"
+        android:hint="Search"
+        android:textColorHint="#94A3B8"
+        android:textColor="#1E293B"
         android:background="@drawable/edittext_border"
-        android:layout_margin="16dp"
-        android:gravity="center_vertical">
+        android:paddingStart="16dp"
+        android:paddingEnd="40dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:inputType="text"
+        android:imeOptions="actionSearch"
+        android:singleLine="true"
+        android:drawableEnd="@drawable/search_icon"
+        android:drawablePadding="8dp"/>
 
-        <TextView
-            android:id="@+id/textviewSearchPlaceholder"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="Search"
-            android:textColor="#94A3B8"
-            android:paddingStart="8dp" />
-
-        <ImageView
-            android:id="@+id/imageviewSearchIcon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/search_icon"
-            android:layout_marginEnd="8dp" />
-    </LinearLayout>
-
+    <!-- TITLE -->
     <TextView
-        android:id="@+id/textviewHeaderTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="To do"
@@ -41,150 +39,118 @@
         android:textStyle="bold"
         android:textColor="#1E293B"
         android:layout_marginStart="16dp"
-        android:layout_marginBottom="12dp" />
+        android:layout_marginBottom="8dp"/>
 
-    <LinearLayout
-        android:id="@+id/linearlayoutWelcomeCard"
+    <!-- SCROLLABLE CONTENT -->
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/edittext_border"
-        android:padding="20dp"
-        android:layout_marginHorizontal="16dp">
-
-        <TextView
-            android:id="@+id/textViewUser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Welcome to To Do!"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="#2D3748" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#E2E8F0"
-            android:layout_marginVertical="12dp" />
-
-        <TextView
-            android:id="@+id/textviewWelcomeBody"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Organize your life.\nFocus on what matters today."
-            android:textColor="#4A5568"
-            android:textStyle="bold"
-            android:lineSpacingExtra="4dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="16dp">
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="16dp">
 
-            <TextView android:id="@+id/textviewTaskInfo1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:text="📌  Tap + to add your first task" android:textStyle="bold" />
-            <TextView android:id="@+id/textviewTaskInfo2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:text="📊  Track your progress" android:textStyle="bold" />
-            <TextView android:id="@+id/textviewTaskInfo3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="8dp" android:text="🎯  Your balance starts here" android:textStyle="bold" />
-            <TextView android:id="@+id/textviewTaskInfo4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🧘  Clarity over chaos" android:textStyle="bold" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:paddingHorizontal="16dp"
-        android:paddingTop="16dp">
-        <TextView
-            android:id="@+id/textviewSectionToday"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Today"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="#1E293B"
-            android:paddingVertical="8dp" />
-
-        <TextView
-            android:id="@+id/textviewSectionUpcoming"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Upcoming"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="#1E293B"
-            android:paddingVertical="8dp" />
-
-        <TextView
-            android:id="@+id/textviewSectionAnytime"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Anytime"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="#1E293B"
-            android:paddingVertical="8dp" />
-
-        <TextView
-            android:id="@+id/textviewSectionDone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Done"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="#1E293B"
-            android:paddingVertical="8dp" />
-
-
-
-        <ListView
-            android:id="@+id/listViewTasks"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:divider="#E2E8F0"
-            android:dividerHeight="1dp"
-            android:scrollbars="none"/>
-        <TextView
-            android:id="@+id/textviewTrashButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:text="🗑 Trash"
-            android:textColor="#94A3B8"
-            android:textSize="14sp" />
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="bottom|center_vertical"
-            android:paddingVertical="16dp">
-
-            <ImageButton
-                android:id="@+id/imagebuttonAddTask"
-                android:layout_width="458dp"
-                android:layout_height="56dp"
+            <!-- WELCOME CARD: visible before any task is added -->
+            <LinearLayout
+                android:id="@+id/linearlayoutWelcomeCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:background="@drawable/edittext_border"
-                android:contentDescription="Add Task"
-                android:gravity="end"
-                android:scaleType="fitCenter"
-                android:src="@drawable/add_task_button" />
+                android:padding="20dp"
+                android:layout_marginBottom="12dp"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/textViewUser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Welcome!"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#2D3748"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#E2E8F0"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Organize your life.\nFocus on what matters today."
+                    android:textColor="#4A5568"
+                    android:textStyle="bold"
+                    android:lineSpacingExtra="4dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="16dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp" android:text="📌  Tap + to add your first task" android:textStyle="bold"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp" android:text="📊  Track your progress" android:textStyle="bold"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp" android:text="🎯  Your balance starts here" android:textStyle="bold"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="🧘  Clarity over chaos" android:textStyle="bold"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- TASK ROWS injected dynamically (sections: Today, Inbox, Upcoming, Anytime, Done) -->
+            <LinearLayout
+                android:id="@+id/linearlayoutTaskContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
+
+            <!-- TRASH at very bottom -->
+            <TextView
+                android:id="@+id/textviewTrashButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="16dp"
+                android:paddingBottom="8dp"
+                android:text="🗑 Trash"
+                android:textColor="#94A3B8"
+                android:textSize="14sp"/>
 
         </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
-
-    </LinearLayout>
-
-    <View
-        android:id="@+id/viewNavBorder"
+    <!-- ADD (+) BUTTON pinned top-right above nav -->
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#E2E8F0" />
+        android:layout_height="wrap_content"
+        android:paddingEnd="16dp"
+        android:paddingBottom="8dp"
+        android:paddingTop="4dp">
 
+        <ImageButton
+            android:id="@+id/imagebuttonAddTask"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/btn_circle_dark"
+            android:contentDescription="Add Task"
+            android:scaleType="fitCenter"
+            android:src="@drawable/add_task_button"/>
+    </RelativeLayout>
+
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E2E8F0"/>
+
+    <!-- BOTTOM NAV (4 tabs) -->
     <LinearLayout
-        android:id="@+id/linearlayoutBottomNav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFFFFF"
@@ -193,67 +159,54 @@
 
         <LinearLayout
             android:id="@+id/linearlayoutNavTodo"
-            android:layout_width="0dp"
+            android:layout_width="0dp" android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:gravity="center" android:orientation="vertical">
+            <ImageView android:id="@+id/imageviewNavTodo"
+                android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/todo_active"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_marginTop="4dp" android:text="To Do"
+                android:textSize="11sp" android:textStyle="bold" android:textColor="#1E293B"/>
+        </LinearLayout>
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/check_icon" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="To Do"
-                android:textSize="12sp" />
+        <LinearLayout
+            android:id="@+id/linearlayoutNavProjects"
+            android:layout_width="0dp" android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center" android:orientation="vertical">
+            <ImageView android:id="@+id/imageviewNavProjects"
+                android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/project_not_active"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_marginTop="4dp" android:text="Projects"
+                android:textSize="11sp" android:textColor="#94A3B8"/>
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/linearlayoutNavCalendar"
-            android:layout_width="0dp"
+            android:layout_width="0dp" android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/calendar_icon" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Calendar"
-                android:textSize="12sp" />
+            android:gravity="center" android:orientation="vertical">
+            <ImageView android:id="@+id/imageviewNavCalendar"
+                android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/calendar_not_active"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_marginTop="4dp" android:text="Calendar"
+                android:textSize="11sp" android:textColor="#94A3B8"/>
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/linearlayoutNavProfile"
-            android:layout_width="0dp"
+            android:layout_width="0dp" android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/profile_icon" />
-
-            <TextView
-                android:id="@+id/textviewProfile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Profile"
-                android:textSize="12sp" />
-
+            android:gravity="center" android:orientation="vertical">
+            <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/profile_icon"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_marginTop="4dp" android:text="Profile"
+                android:textSize="11sp" android:textColor="#94A3B8"/>
         </LinearLayout>
+
     </LinearLayout>
 </LinearLayout>

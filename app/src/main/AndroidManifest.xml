@@ -8,6 +8,7 @@
         android:label="TodoApp"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
+        <!-- LAUNCHER -->
         <activity
             android:name=".screens.login.LoginActivity"
             android:exported="true">
@@ -17,13 +18,24 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".screens.profile.ProfileActivity" android:exported="false" />
-        <activity android:name=".screens.register.RegisterActivity" />
-        <activity android:name=".screens.dashboard.DashboardActivity" />
+        <activity android:name=".screens.register.RegisterActivity"
+            android:exported="false" />
 
-        <activity android:name=".screens.calendar.CalendarActivity" />
-        <activity android:name=".screens.dashboard.SectionListActivity" android:exported="false" />
-        <activity android:name=".screens.dashboard.TrashActivity" android:exported="false" />
+        <activity android:name=".screens.dashboard.DashboardActivity"
+            android:exported="false" />
+
+        <activity android:name=".screens.dashboard.TrashActivity"
+            android:exported="false" />
+
+        <activity android:name=".screens.projects.ProjectsActivity"
+            android:exported="false" />
+
+        <activity android:name=".screens.calendar.CalendarActivity"
+            android:exported="false" />
+
+        <activity android:name=".screens.profile.ProfileActivity"
+            android:exported="false" />
 
     </application>
+
 </manifest>
