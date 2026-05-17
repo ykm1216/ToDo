@@ -6,7 +6,7 @@
     android:background="#FFFFFF"
     android:padding="16dp">
 
-    <!-- Title row: checkbox + input + X -->
+    <!-- Title row: checkbox + editable project name + X -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,16 +14,16 @@
         android:gravity="center_vertical">
 
         <CheckBox
-            android:id="@+id/checkboxNewProject"
+            android:id="@+id/checkboxEditProject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <EditText
-            android:id="@+id/edittextProjectTitle"
+            android:id="@+id/edittextEditProjectTitle"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:hint="New Project"
+            android:hint="Project name"
             android:background="@null"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -32,7 +32,7 @@
             android:layout_marginStart="8dp"/>
 
         <ImageView
-            android:id="@+id/imageviewCloseProject"
+            android:id="@+id/imageviewCloseEditProject"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/x"
@@ -46,14 +46,16 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"/>
 
-    <!-- Notes -->
+    <!-- Notes area -->
     <EditText
-        android:id="@+id/edittextProjectNotes"
+        android:id="@+id/edittextEditProjectNotes"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:hint="Add notes"
         android:background="@null"
         android:gravity="top"
+        android:inputType="textMultiLine"
+        android:scrollbars="vertical"
         android:textColor="#4A5568"
         android:textColorHint="#94A3B8"
         android:textSize="14sp"/>
@@ -72,7 +74,7 @@
             android:layout_weight="1" />
 
         <Button
-            android:id="@+id/buttonSaveProject"
+            android:id="@+id/buttonSaveEditProject"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:backgroundTint="#1E293B"

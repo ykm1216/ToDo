@@ -41,12 +41,12 @@
         android:layout_marginStart="16dp"
         android:layout_marginBottom="8dp"/>
 
-    <!-- SCROLLABLE CONTENT -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:fillViewport="true">
+        android:fillViewport="false"
+        android:scrollbars="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -112,7 +112,8 @@
                 android:id="@+id/linearlayoutTaskContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"/>
+                android:orientation="vertical"
+                android:nestedScrollingEnabled="false"/>
 
             <!-- TRASH at very bottom -->
             <TextView
@@ -141,7 +142,7 @@
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_alignParentEnd="true"
-            android:background="@drawable/btn_circle_dark"
+            android:background="@null"
             android:contentDescription="Add Task"
             android:scaleType="fitCenter"
             android:src="@drawable/add_task_button"/>

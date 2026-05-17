@@ -3,10 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="#FFFFFF"
-    android:padding="16dp">
+    android:background="#FFFFFF" android:padding="16dp">
 
-    <!-- Title row: checkbox + input + X -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -46,19 +44,19 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"/>
 
-    <!-- Notes -->
     <EditText
         android:id="@+id/edittextTodoNotes"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:hint="Add notes"
         android:background="@null"
-        android:gravity="top"
+        android:gravity="top|start"
+        android:inputType="textMultiLine"
+        android:scrollbars="vertical"
         android:textColor="#4A5568"
         android:textColorHint="#94A3B8"
         android:textSize="14sp"/>
 
-    <!-- Bottom action row: icons + Save -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -66,7 +64,6 @@
         android:gravity="center_vertical"
         android:layout_marginTop="8dp">
 
-        <!-- Calendar (active color icon) -->
         <ImageView
             android:id="@+id/imageviewCalendarIcon"
             android:layout_width="28dp"
@@ -75,7 +72,6 @@
             android:layout_marginEnd="16dp"
             android:contentDescription="Set date"/>
 
-        <!-- Tag / Label (label.png = active color) -->
         <ImageView
             android:id="@+id/imageviewTagIcon"
             android:layout_width="28dp"
@@ -84,7 +80,6 @@
             android:layout_marginEnd="16dp"
             android:contentDescription="Set tag"/>
 
-        <!-- Project (project-active icon) -->
         <ImageView
             android:id="@+id/imageviewProjectIcon"
             android:layout_width="28dp"
@@ -93,17 +88,18 @@
             android:layout_marginEnd="0dp"
             android:contentDescription="Add to project"/>
 
-        <View android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
         <Button
             android:id="@+id/buttonSaveTodo"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:text="Save"
             android:backgroundTint="#1E293B"
-            android:textColor="#FFFFFF"
+            android:text="Save"
             android:textAllCaps="false"
-            android:cornerRadius="20dp"/>
+            android:textColor="#FFFFFF" />
     </LinearLayout>
-
 </LinearLayout>

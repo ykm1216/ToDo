@@ -10,12 +10,12 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.Gravity
 import android.view.View
+import android.view.WindowManager
 import android.widget.*
 import com.example.todo.R
 import com.example.todo.data.TaskRepository
 import com.example.todo.data.models.TaskItem
 import com.example.todo.screens.dashboard.DashboardActivity
-import com.example.todo.screens.dashboard.TrashActivity
 import com.example.todo.screens.profile.ProfileActivity
 import com.example.todo.screens.projects.ProjectsActivity
 import java.util.*
@@ -40,7 +40,6 @@ class CalendarActivity : Activity() {
             override fun afterTextChanged(s: Editable?) { refreshCalendar() }
         })
 
-        // Add task button
         findViewById<ImageButton>(R.id.imagebuttonAddTaskCalendar).setOnClickListener {
             showAddTaskOverlay()
         }
@@ -75,10 +74,9 @@ class CalendarActivity : Activity() {
         calendarContainer.removeAllViews()
         val query = searchInput.text.toString().trim().lowercase()
 
-        // Build months from the current month (May 2026) through December of this year
         val now = Calendar.getInstance()
         val thisYear = now.get(Calendar.YEAR)
-        val startMonth = now.get(Calendar.MONTH) // 0-based
+        val startMonth = now.get(Calendar.MONTH)
 
         val monthNames = arrayOf(
             "January","February","March","April","May","June",
@@ -86,7 +84,6 @@ class CalendarActivity : Activity() {
         )
 
         for (month in startMonth..11) {
-            // Collect tasks that fall in this month
             val allTasks = TaskRepository.allActiveTasks() + TaskRepository.doneTasks
             val tasksInMonth = allTasks.filter { task ->
                 if (task.deadlineMillis == null) return@filter false
@@ -96,14 +93,13 @@ class CalendarActivity : Activity() {
                 query.isEmpty() || task.title.lowercase().contains(query)
             }
 
-            // If searching and nothing matches this month, skip
             if (query.isNotEmpty() && tasksInMonth.isEmpty()) continue
 
-            // Month header row
+            // Month header
             val headerRow = LinearLayout(this).apply {
                 orientation = LinearLayout.HORIZONTAL
                 gravity = Gravity.CENTER_VERTICAL
-                setPadding(0, 24, 0, 8)
+                setPadding(0, 48, 0, 22)
             }
             val monthTv = TextView(this).apply {
                 text = "${monthNames[month]} $thisYear"
@@ -120,14 +116,20 @@ class CalendarActivity : Activity() {
             headerRow.addView(calIcon)
             calendarContainer.addView(headerRow)
 
-            // Divider under header
             calendarContainer.addView(View(this).apply {
                 layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1)
                 setBackgroundColor(0xFF1E293B.toInt())
             })
 
-            // Tasks under this month (only if there are tasks)
             tasksInMonth.forEach { task -> addCalendarTaskRow(task) }
+            if (tasksInMonth.isEmpty()) {
+                calendarContainer.addView(TextView(this).apply {
+                    text = "No tasks"
+                    textSize = 13f
+                    setTextColor(0xFF94A3B8.toInt())
+                    setPadding(0, 8, 0, 8)
+                })
+            }
         }
 
         if (calendarContainer.childCount == 0 && query.isNotEmpty()) {
@@ -136,10 +138,14 @@ class CalendarActivity : Activity() {
                 textSize = 14f
                 setTextColor(0xFF94A3B8.toInt())
                 gravity = Gravity.CENTER
-                setPadding(0, 48, 0, 0)
+                setPadding(0, 68, 0, 12)
                 layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
             })
+
+            LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1).also {
+                it.bottomMargin = 8
+            }
         }
     }
 
@@ -152,16 +158,22 @@ class CalendarActivity : Activity() {
 
         val cb = CheckBox(this).apply {
             isChecked = task.isDone
+            // Prevent checkbox from consuming touches meant for the title
+            isFocusable = false
+            isFocusableInTouchMode = false
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             ).apply { marginEnd = 12 }
         }
+
         val title = TextView(this).apply {
             text = task.title
             textSize = 14f
             setTextColor(if (task.isDone) 0xFF94A3B8.toInt() else 0xFF1E293B.toInt())
             if (task.isDone) paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            isClickable = true
+            isFocusable = true
             layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
         }
 
@@ -170,9 +182,13 @@ class CalendarActivity : Activity() {
             else if (!checked && task.isDone) { TaskRepository.markUndone(task); refreshCalendar() }
         }
 
+        // Tap title → edit task overlay
+        title.setOnClickListener { showEditTaskOverlay(task) }
+
         row.addView(cb)
         row.addView(title)
 
+        // Long press → trash
         row.setOnLongClickListener {
             AlertDialog.Builder(this)
                 .setTitle("Delete Task")
@@ -186,35 +202,104 @@ class CalendarActivity : Activity() {
 
         calendarContainer.addView(row)
         calendarContainer.addView(View(this).apply {
-            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1)
-            setBackgroundColor(0xFFE2E8F0.toInt())
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, 32)
         })
+    }
+
+    // ── EDIT TASK OVERLAY ─────────────────────────────────────────────────────
+
+    private fun showEditTaskOverlay(task: TaskItem) {
+        val view = layoutInflater.inflate(R.layout.dialog_edit_task, null)
+        val dialog = AlertDialog.Builder(this, R.style.CustomDialogCardTheme).setView(view).create()
+
+        val titleInput  = view.findViewById<EditText>(R.id.edittextEditTitle)
+        val notesInput  = view.findViewById<EditText>(R.id.edittextEditNotes)
+        val closeBtn    = view.findViewById<ImageView>(R.id.imageviewCloseEdit)
+        val saveBtn     = view.findViewById<Button>(R.id.buttonSaveEdit)
+        val calIcon     = view.findViewById<ImageView>(R.id.imageviewEditCalendar)
+        val tagIcon     = view.findViewById<ImageView>(R.id.imageviewEditTag)
+        val projectIcon = view.findViewById<ImageView>(R.id.imageviewEditProject)
+
+        titleInput.setText(task.title)
+        notesInput.setText(task.notes)
+
+        var selectedDeadline: Long? = task.deadlineMillis
+        var selectedTag = task.tag ?: "Inbox"
+        var selectedProject: String? = task.projectName
+
+        closeBtn.setOnClickListener { dialog.dismiss() }
+
+        calIcon.setOnClickListener {
+            val cal = java.util.Calendar.getInstance()
+            android.app.DatePickerDialog(this, { _, y, m, d ->
+                val picked = java.util.Calendar.getInstance().apply {
+                    set(y, m, d, 12, 0, 0); set(java.util.Calendar.MILLISECOND, 0)
+                }
+                selectedDeadline = picked.timeInMillis
+                val ts = todayStart(); val te = todayEnd()
+                selectedTag = when {
+                    picked.timeInMillis < ts -> "Inbox"
+                    picked.timeInMillis in ts..te -> "Today"
+                    else -> "Upcoming"
+                }
+                Toast.makeText(this, "Due: $d/${m+1}/$y → $selectedTag", Toast.LENGTH_SHORT).show()
+            }, cal.get(java.util.Calendar.YEAR),
+                cal.get(java.util.Calendar.MONTH),
+                cal.get(java.util.Calendar.DAY_OF_MONTH)).show()
+        }
+
+        tagIcon.setOnClickListener {
+            val tagView = layoutInflater.inflate(R.layout.dialog_tag_picker, null)
+            val tagDialog = AlertDialog.Builder(this, R.style.CustomDialogCardTheme).setView(tagView).create()
+            tagView.findViewById<LinearLayout>(R.id.optionTagInbox).setOnClickListener {
+                selectedTag = "Inbox"; Toast.makeText(this, "Tag: Inbox", Toast.LENGTH_SHORT).show(); tagDialog.dismiss()
+            }
+            tagView.findViewById<LinearLayout>(R.id.optionTagUpcoming).setOnClickListener {
+                selectedTag = "Upcoming"; Toast.makeText(this, "Tag: Upcoming", Toast.LENGTH_SHORT).show(); tagDialog.dismiss()
+            }
+            tagView.findViewById<LinearLayout>(R.id.optionTagAnytime).setOnClickListener {
+                selectedTag = "Anytime"; Toast.makeText(this, "Tag: Anytime", Toast.LENGTH_SHORT).show(); tagDialog.dismiss()
+            }
+            tagDialog.formatAsCard()
+        }
+
+        projectIcon.setOnClickListener {
+            showProjectPickerDialog { pname -> selectedProject = pname }
+        }
+
+        saveBtn.setOnClickListener {
+            val newTitle = titleInput.text.toString().trim()
+            val newNotes = notesInput.text.toString().trim()
+            if (newTitle.isNotEmpty()) {
+                TaskRepository.updateTask(task, newTitle, newNotes, selectedTag, selectedDeadline, selectedProject)
+                refreshCalendar()
+                dialog.dismiss()
+            } else {
+                Toast.makeText(this, "Enter a task name", Toast.LENGTH_SHORT).show()
+            }
+        }
+        dialog.formatAsCard()
     }
 
     // ── ADD TASK OVERLAY ──────────────────────────────────────────────────────
 
     private fun showAddTaskOverlay() {
         val view = layoutInflater.inflate(R.layout.dialog_add_task_options, null)
-        val dialog = AlertDialog.Builder(this).setView(view).create()
+        val dialog = AlertDialog.Builder(this, R.style.CustomDialogCardTheme).setView(view).create()
 
         view.findViewById<LinearLayout>(R.id.optionNewTodo).setOnClickListener {
             dialog.dismiss(); showNewTodoOverlay()
         }
         view.findViewById<LinearLayout>(R.id.optionNewProject).setOnClickListener {
-            dialog.dismiss()
-            val input = EditText(this).apply { hint = "Project name" }
-            AlertDialog.Builder(this).setTitle("New Project").setView(input)
-                .setPositiveButton("Create") { _, _ ->
-                    val n = input.text.toString().trim()
-                    if (n.isNotEmpty()) TaskRepository.projects.getOrPut(n) { ArrayList() }
-                }.setNegativeButton("Cancel", null).show()
+            dialog.dismiss(); showNewProjectOverlay()
         }
-        dialog.show()
+        dialog.formatAsCard()
     }
 
     private fun showNewTodoOverlay() {
         val view = layoutInflater.inflate(R.layout.dialog_new_todo, null)
-        val dialog = AlertDialog.Builder(this).setView(view).create()
+        val dialog = AlertDialog.Builder(this, R.style.CustomDialogCardTheme).setView(view).create()
 
         val titleInput  = view.findViewById<EditText>(R.id.edittextTodoTitle)
         val notesInput  = view.findViewById<EditText>(R.id.edittextTodoNotes)
@@ -249,7 +334,7 @@ class CalendarActivity : Activity() {
 
         tagIcon.setOnClickListener {
             val tagView = layoutInflater.inflate(R.layout.dialog_tag_picker, null)
-            val tagDialog = AlertDialog.Builder(this).setView(tagView).create()
+            val tagDialog = AlertDialog.Builder(this, R.style.CustomDialogCardTheme).setView(tagView).create()
             tagView.findViewById<LinearLayout>(R.id.optionTagInbox).setOnClickListener {
                 selectedTag = "Inbox"; tagDialog.dismiss()
             }
@@ -259,40 +344,10 @@ class CalendarActivity : Activity() {
             tagView.findViewById<LinearLayout>(R.id.optionTagAnytime).setOnClickListener {
                 selectedTag = "Anytime"; tagDialog.dismiss()
             }
-            tagDialog.show()
+            tagDialog.formatAsCard()
         }
 
-        projectIcon.setOnClickListener {
-            val projView = layoutInflater.inflate(R.layout.dialog_project_picker, null)
-            val projDialog = AlertDialog.Builder(this).setView(projView).create()
-            val container = projView.findViewById<LinearLayout>(R.id.linearlayoutProjectList)
-            projView.findViewById<ImageView>(R.id.imageviewCloseProject).setOnClickListener { projDialog.dismiss() }
-            fun rebuild() {
-                container.removeAllViews()
-                TaskRepository.projects.keys.forEach { pname ->
-                    val tv = TextView(this).apply {
-                        text = pname; textSize = 15f; setTextColor(0xFF1E293B.toInt())
-                        setPadding(0, 20, 0, 20)
-                        setOnClickListener { selectedProject = pname; projDialog.dismiss() }
-                    }
-                    container.addView(tv)
-                    container.addView(View(this).apply {
-                        layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1)
-                        setBackgroundColor(0xFFE2E8F0.toInt())
-                    })
-                }
-            }
-            rebuild()
-            projView.findViewById<TextView>(R.id.textviewAddNewProject).setOnClickListener {
-                val input = EditText(this).apply { hint = "Project name" }
-                AlertDialog.Builder(this).setTitle("New Project").setView(input)
-                    .setPositiveButton("Create") { _, _ ->
-                        val n = input.text.toString().trim()
-                        if (n.isNotEmpty()) { TaskRepository.projects.getOrPut(n) { ArrayList() }; rebuild() }
-                    }.setNegativeButton("Cancel", null).show()
-            }
-            projDialog.show()
-        }
+        projectIcon.setOnClickListener { showProjectPickerDialog { pname -> selectedProject = pname } }
 
         saveBtn.setOnClickListener {
             val name = titleInput.text.toString().trim()
@@ -302,10 +357,86 @@ class CalendarActivity : Activity() {
             } else Toast.makeText(this, "Enter a task name", Toast.LENGTH_SHORT).show()
         }
 
-        dialog.show()
+        dialog.formatAsCard()
     }
 
-    // ── NAV ICONS ─────────────────────────────────────────────────────────────
+    private fun showNewProjectOverlay() {
+        val view = layoutInflater.inflate(R.layout.dialog_new_project, null)
+        val dialog = AlertDialog.Builder(this, R.style.CustomDialogCardTheme).setView(view).create()
+
+        val titleInput = view.findViewById<EditText>(R.id.edittextProjectTitle)
+        val closeBtn   = view.findViewById<ImageView>(R.id.imageviewCloseProject)
+        val saveBtn    = view.findViewById<Button>(R.id.buttonSaveProject)
+
+        closeBtn.setOnClickListener { dialog.dismiss() }
+        saveBtn.setOnClickListener {
+            val name = titleInput.text.toString().trim()
+            if (name.isNotEmpty()) {
+                TaskRepository.projects.getOrPut(name) { ArrayList() }
+                Toast.makeText(this, "Project \"$name\" created", Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+            } else Toast.makeText(this, "Enter a project name", Toast.LENGTH_SHORT).show()
+        }
+        dialog.formatAsCard()
+    }
+
+    // ── PROJECT PICKER ────────────────────────────────────────────────────────
+
+    private fun showProjectPickerDialog(onPicked: (String) -> Unit) {
+        val projView = layoutInflater.inflate(R.layout.dialog_project_picker, null)
+        val projDialog = AlertDialog.Builder(this, R.style.CustomDialogCardTheme).setView(projView).create()
+        val container  = projView.findViewById<LinearLayout>(R.id.linearlayoutProjectList)
+        projView.findViewById<ImageView>(R.id.imageviewCloseProject).setOnClickListener { projDialog.dismiss() }
+
+        fun rebuildList() {
+            container.removeAllViews()
+            TaskRepository.projects.keys.forEach { pname ->
+                val tv = TextView(this).apply {
+                    text = pname; textSize = 15f; setTextColor(0xFF1E293B.toInt())
+                    setPadding(0, 24, 0, 20)
+                    setOnClickListener { onPicked(pname); projDialog.dismiss() }
+                }
+                container.addView(tv)
+                container.addView(View(this).apply {
+                    layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1)
+                    setBackgroundColor(0xFFE2E8F0.toInt())
+                })
+            }
+        }
+
+        rebuildList()
+
+        // "+ Add New Project" opens proper dialog_new_project overlay
+        projView.findViewById<TextView>(R.id.textviewAddNewProject).setOnClickListener {
+            projDialog.dismiss()
+            showNewProjectFromPicker(onPicked)
+        }
+
+        projDialog.formatAsCard()
+    }
+
+    private fun showNewProjectFromPicker(onPicked: (String) -> Unit) {
+        val view = layoutInflater.inflate(R.layout.dialog_new_project, null)
+        val dialog = AlertDialog.Builder(this, R.style.CustomDialogCardTheme).setView(view).create()
+
+        val titleInput = view.findViewById<EditText>(R.id.edittextProjectTitle)
+        val closeBtn   = view.findViewById<ImageView>(R.id.imageviewCloseProject)
+        val saveBtn    = view.findViewById<Button>(R.id.buttonSaveProject)
+
+        closeBtn.setOnClickListener { dialog.dismiss() }
+        saveBtn.setOnClickListener {
+            val name = titleInput.text.toString().trim()
+            if (name.isNotEmpty()) {
+                TaskRepository.projects.getOrPut(name) { ArrayList() }
+                onPicked(name)
+                dialog.dismiss()
+                Toast.makeText(this, "Project \"$name\" created & selected", Toast.LENGTH_SHORT).show()
+            } else Toast.makeText(this, "Enter a project name", Toast.LENGTH_SHORT).show()
+        }
+        dialog.formatAsCard()
+    }
+
+    // ── NAV ───────────────────────────────────────────────────────────────────
 
     private fun setNavActive(active: String) {
         findViewById<ImageView>(R.id.imageviewNavTodo).setImageResource(
@@ -316,7 +447,16 @@ class CalendarActivity : Activity() {
             if (active == "calendar") R.drawable.calendar_active else R.drawable.calendar_not_active)
     }
 
-    // ── DATE HELPERS ──────────────────────────────────────────────────────────
+    // ── HELPERS ───────────────────────────────────────────────────────────────
+
+    private fun AlertDialog.formatAsCard() {
+        this.show()
+        this.window?.apply {
+            setBackgroundDrawableResource(android.R.color.transparent)
+            val width = (this@CalendarActivity.resources.displayMetrics.widthPixels * 0.90).toInt()
+            setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT)
+        }
+    }
 
     private fun todayStart() = Calendar.getInstance().apply {
         set(Calendar.HOUR_OF_DAY, 0); set(Calendar.MINUTE, 0)

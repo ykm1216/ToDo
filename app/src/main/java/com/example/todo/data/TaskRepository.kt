@@ -42,6 +42,43 @@ object TaskRepository {
         }
     }
 
+    /** Updates an existing task's properties and safely re-routes it to the correct bucket */
+    fun updateTask(task: TaskItem, newTitle: String, newNotes: String, newTag: String, newDeadline: Long?, newProject: String?) {
+        // 1. Update the parameters of the item reference
+        task.title = newTitle
+        task.notes = newNotes
+        task.tag = newTag
+        task.deadlineMillis = newDeadline
+        task.projectName = newProject
+
+        // 2. Clear item from existing section lists to prevent duplicate records
+        todayTasks.remove(task)
+        inboxTasks.remove(task)
+        upcomingTasks.remove(task)
+        anytimeTasks.remove(task)
+
+        // 3. Re-route the task object to its updated priority container based on deadline or tag
+        val todayStart = todayStart()
+        val todayEnd   = todayEnd()
+
+        when {
+            newDeadline != null && newDeadline < todayStart -> inboxTasks.add(0, task) // overdue → inbox
+            newDeadline != null && newDeadline in todayStart..todayEnd -> todayTasks.add(0, task)
+            newTag == "Inbox"    -> inboxTasks.add(0, task)
+            newTag == "Upcoming" -> upcomingTasks.add(0, task)
+            newTag == "Anytime"  -> anytimeTasks.add(0, task)
+            else                 -> inboxTasks.add(0, task)
+        }
+
+        // 4. Handle sync if the task belongs to a project collection map
+        newProject?.let { pname ->
+            val list = projects.getOrPut(pname) { ArrayList() }
+            if (!list.contains(task)) {
+                list.add(task)
+            }
+        }
+    }
+
     fun markDone(task: TaskItem) {
         removeFromAllBuckets(task.id)
         task.isDone = true
