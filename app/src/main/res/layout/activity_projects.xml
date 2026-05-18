@@ -8,6 +8,7 @@
     tools:context=".screens.projects.ProjectsActivity">
 
     <!-- SEARCH -->
+
     <EditText
         android:id="@+id/edittextSearchProjects"
         android:layout_width="match_parent"
@@ -17,18 +18,18 @@
         android:textColor="#1E293B"
         android:background="@drawable/edittext_border"
         android:paddingStart="16dp"
-        android:paddingEnd="40dp"
         android:paddingTop="12dp"
         android:paddingBottom="12dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="12dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
         android:inputType="text"
         android:imeOptions="actionSearch"
         android:singleLine="true"
+        android:paddingEnd="18dp"
         android:drawableEnd="@drawable/search_icon"
-        android:drawablePadding="8dp"/>
+        android:drawablePadding="12dp"/>
 
     <!-- TITLE -->
     <TextView

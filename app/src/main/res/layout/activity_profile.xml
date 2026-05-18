@@ -8,47 +8,36 @@
     android:background="#FFFFFF"
     tools:context=".screens.profile.ProfileActivity">
 
+    <!-- HEADER: centered "Profile" title, no back icon -->
     <LinearLayout
-        android:id="@+id/linearlayoutProfileHeader"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="16dp">
-
-        <ImageView
-            android:id="@+id/ivBack"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Back"
-            android:src="@drawable/arrow_left_arrow" />
+        android:gravity="center">
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="Profile"
             android:textSize="18sp"
             android:textColor="#475569"
-            android:textStyle="bold"
-            android:layout_marginStart="12dp"/>
-
+            android:textStyle="bold"/>
     </LinearLayout>
 
     <View
-        android:id="@+id/viewHeaderDivider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#E2E8F0"
         android:layout_marginHorizontal="16dp"/>
 
+    <!-- PROFILE PICTURE + USERNAME -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_horizontal"
-        android:paddingVertical="32dp">
+        android:paddingTop="32dp"
+        android:paddingBottom="32dp">
 
         <ImageView
             android:id="@+id/imageviewProfileIllustration"
@@ -62,12 +51,13 @@
             android:id="@+id/textviewUsernameHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="janedoe123"
+            android:text="username"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="#1E293B"/>
     </LinearLayout>
 
+    <!-- PROFILE FIELDS -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -77,35 +67,51 @@
 
         <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9"/>
 
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:paddingVertical="16dp">
-            <ImageView android:id="@+id/imageviewFirstNameIcon" android:layout_width="18dp" android:layout_height="18dp" android:src="@drawable/profile_dark" app:tint="#64748B"/>
-            <TextView android:id="@+id/textviewFirstNameLabel" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="First Name" android:textColor="#475569" android:textStyle="bold" android:layout_marginStart="12dp"/>
-            <TextView android:id="@+id/textviewFirstName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Jane" android:textColor="#1E293B" android:textStyle="bold"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical" android:paddingVertical="16dp">
+            <ImageView android:layout_width="18dp" android:layout_height="18dp"
+                android:src="@drawable/profile_dark" app:tint="#64748B"/>
+            <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                android:text="First Name" android:textColor="#475569" android:textStyle="bold" android:layout_marginStart="12dp"/>
+            <TextView android:id="@+id/textviewFirstName" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="—" android:textColor="#1E293B" android:textStyle="bold"/>
         </LinearLayout>
         <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9"/>
 
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:paddingVertical="16dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical" android:paddingVertical="16dp">
             <View android:layout_width="18dp" android:layout_height="18dp"/>
-            <TextView android:id="@+id/textviewMiddleNameLabel" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Middle Name" android:textColor="#475569" android:textStyle="bold" android:layout_marginStart="12dp"/>
-            <TextView android:id="@+id/textviewMiddleName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Joe" android:textColor="#1E293B" android:textStyle="bold"/>
+            <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                android:text="Middle Name" android:textColor="#475569" android:textStyle="bold" android:layout_marginStart="12dp"/>
+            <TextView android:id="@+id/textviewMiddleName" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="—" android:textColor="#1E293B" android:textStyle="bold"/>
         </LinearLayout>
         <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9"/>
 
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:paddingVertical="16dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical" android:paddingVertical="16dp">
             <View android:layout_width="18dp" android:layout_height="18dp"/>
-            <TextView android:id="@+id/textviewLastNameLabel" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Last Name" android:textColor="#475569" android:textStyle="bold" android:layout_marginStart="12dp"/>
-            <TextView android:id="@+id/textviewLastName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Joe" android:textColor="#1E293B" android:textStyle="bold"/>
+            <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                android:text="Last Name" android:textColor="#475569" android:textStyle="bold" android:layout_marginStart="12dp"/>
+            <TextView android:id="@+id/textviewLastName" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="—" android:textColor="#1E293B" android:textStyle="bold"/>
         </LinearLayout>
         <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9"/>
 
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:paddingVertical="16dp">
-            <ImageView android:id="@+id/imageviewEmailIcon" android:layout_width="18dp" android:layout_height="18dp" android:src="@drawable/mail" app:tint="#64748B"/>
-            <TextView android:id="@+id/textviewEmailLabel" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Email" android:textColor="#475569" android:textStyle="bold" android:layout_marginStart="12dp"/>
-            <TextView android:id="@+id/textviewEmail" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="janedoe@joe.com" android:textColor="#1E293B" android:textStyle="bold"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical" android:paddingVertical="16dp">
+            <ImageView android:layout_width="18dp" android:layout_height="18dp"
+                android:src="@drawable/mail" app:tint="#64748B"/>
+            <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+                android:text="Email" android:textColor="#475569" android:textStyle="bold" android:layout_marginStart="12dp"/>
+            <TextView android:id="@+id/textviewEmail" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="—" android:textColor="#1E293B" android:textStyle="bold"/>
         </LinearLayout>
         <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9"/>
+
     </LinearLayout>
 
+    <!-- LOGOUT -->
     <LinearLayout
         android:id="@+id/linearlayoutLogoutAction"
         android:layout_width="match_parent"
@@ -131,6 +137,58 @@
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="#334155"/>
+    </LinearLayout>
+
+    <!-- BOTTOM NAV -->
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E2E8F0"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <LinearLayout android:id="@+id/linearlayoutNavTodo"
+            android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+            android:gravity="center" android:orientation="vertical">
+            <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/todo_not_active"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="To Do" android:textSize="11sp" android:textColor="#94A3B8"
+                android:layout_marginTop="4dp"/>
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/linearlayoutNavProjects"
+            android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+            android:gravity="center" android:orientation="vertical">
+            <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/project_not_active"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Projects" android:textSize="11sp" android:textColor="#94A3B8"
+                android:layout_marginTop="4dp"/>
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/linearlayoutNavCalendar"
+            android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+            android:gravity="center" android:orientation="vertical">
+            <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/calendar_not_active"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Calendar" android:textSize="11sp" android:textColor="#94A3B8"
+                android:layout_marginTop="4dp"/>
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/linearlayoutNavProfile"
+            android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+            android:gravity="center" android:orientation="vertical">
+            <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/profile_active"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Profile" android:textSize="11sp" android:textColor="#1E293B"
+                android:textStyle="bold" android:layout_marginTop="4dp"/>
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>
