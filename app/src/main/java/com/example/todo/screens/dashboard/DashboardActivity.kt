@@ -308,12 +308,16 @@ class DashboardActivity : Activity() {
     private fun showAddTaskOverlay() {
         val view = layoutInflater.inflate(R.layout.dialog_add_task_options, null)
         val dialog = AlertDialog.Builder(this, R.style.CustomDialogCardTheme).setView(view).create()
+
         view.findViewById<LinearLayout>(R.id.optionNewTodo).setOnClickListener {
-            dialog.dismiss(); showNewTodoOverlay()
+            dialog.dismiss()
+            showNewTodoOverlay()
         }
         view.findViewById<LinearLayout>(R.id.optionNewProject).setOnClickListener {
-            dialog.dismiss(); showNewProjectOverlay()
+            dialog.dismiss()
+            showNewProjectOverlay()   // ← calls the corrected method above
         }
+
         dialog.formatAsCustomCard(this)
     }
 
@@ -388,19 +392,26 @@ class DashboardActivity : Activity() {
     private fun showNewProjectOverlay() {
         val view = layoutInflater.inflate(R.layout.dialog_new_project, null)
         val dialog = AlertDialog.Builder(this, R.style.CustomDialogCardTheme).setView(view).create()
+
         val titleInput = view.findViewById<EditText>(R.id.edittextProjectTitle)
         val closeBtn   = view.findViewById<ImageView>(R.id.imageviewCloseProject)
         val saveBtn    = view.findViewById<Button>(R.id.buttonSaveProject)
+
         closeBtn.setOnClickListener { dialog.dismiss() }
+
         saveBtn.setOnClickListener {
             val name = titleInput.text.toString().trim()
             if (name.isNotEmpty()) {
                 TaskRepository.projects.getOrPut(name) { ArrayList() }
+                refreshList()          // ← mirrors Projects: refreshes the list
+                dialog.dismiss()       // ← dismiss BEFORE toast, same order as Projects
                 Toast.makeText(this, "Project \"$name\" created", Toast.LENGTH_SHORT).show()
-                dialog.dismiss()
-            } else Toast.makeText(this, "Enter a project name", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Enter a project name", Toast.LENGTH_SHORT).show()
+            }
         }
-        dialog.formatAsCustomCard(this)
+
+        dialog.formatAsCustomCard(this)   // Dashboard uses formatAsCustomCard, not formatAsCard
     }
 
     private fun showProjectPickerDialog(onPicked: (String) -> Unit) {
