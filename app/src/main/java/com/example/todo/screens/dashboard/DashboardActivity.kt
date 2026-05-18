@@ -210,6 +210,7 @@ class DashboardActivity : Activity() {
         })
     }
 
+
     private fun addEmptyLabel(msg: String) {
         taskContainer.addView(TextView(this).apply {
             text = msg; textSize = 14f; setTextColor(0xFF94A3B8.toInt())
@@ -227,6 +228,7 @@ class DashboardActivity : Activity() {
             setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT)
         }
     }
+
 
     // ── EDIT TASK OVERLAY ─────────────────────────────────────────────────────
 
@@ -305,19 +307,17 @@ class DashboardActivity : Activity() {
 
     // ── ADD TASK OVERLAY ──────────────────────────────────────────────────────
 
+
     private fun showAddTaskOverlay() {
         val view = layoutInflater.inflate(R.layout.dialog_add_task_options, null)
         val dialog = AlertDialog.Builder(this, R.style.CustomDialogCardTheme).setView(view).create()
 
         view.findViewById<LinearLayout>(R.id.optionNewTodo).setOnClickListener {
-            dialog.dismiss()
-            showNewTodoOverlay()
+            dialog.dismiss(); showNewTodoOverlay()
         }
         view.findViewById<LinearLayout>(R.id.optionNewProject).setOnClickListener {
-            dialog.dismiss()
-            showNewProjectOverlay()   // ← calls the corrected method above
+            dialog.dismiss(); showNewProjectOverlay()
         }
-
         dialog.formatAsCustomCard(this)
     }
 
@@ -413,12 +413,12 @@ class DashboardActivity : Activity() {
 
         dialog.formatAsCustomCard(this)   // Dashboard uses formatAsCustomCard, not formatAsCard
     }
-
     private fun showProjectPickerDialog(onPicked: (String) -> Unit) {
         val projView = layoutInflater.inflate(R.layout.dialog_project_picker, null)
         val projDialog = AlertDialog.Builder(this, R.style.CustomDialogCardTheme).setView(projView).create()
         val container = projView.findViewById<LinearLayout>(R.id.linearlayoutProjectList)
         projView.findViewById<ImageView>(R.id.imageviewCloseProject).setOnClickListener { projDialog.dismiss() }
+
         fun rebuildList() {
             container.removeAllViews()
             TaskRepository.projects.keys.forEach { pname ->
@@ -438,18 +438,43 @@ class DashboardActivity : Activity() {
                 })
             }
         }
+
         rebuildList()
+
+        // ← CHANGED: was an inline AlertDialog.Builder, now calls the proper overlay
         projView.findViewById<TextView>(R.id.textviewAddNewProject).setOnClickListener {
-            val input = EditText(this).apply { hint = "Project name" }
-            AlertDialog.Builder(this).setTitle("New Project").setView(input)
-                .setPositiveButton("Create") { _, _ ->
-                    val n = input.text.toString().trim()
-                    if (n.isNotEmpty()) { TaskRepository.projects.getOrPut(n) { ArrayList() }; rebuildList() }
-                }.setNegativeButton("Cancel", null).show()
+            projDialog.dismiss()
+            showNewProjectFromPicker(onPicked)  // ← same as Calendar
         }
+
         projDialog.formatAsCustomCard(this)
     }
 
+    // ← ADD THIS METHOD (copy of Calendar's version, adapted for Dashboard)
+    private fun showNewProjectFromPicker(onPicked: (String) -> Unit) {
+        val view = layoutInflater.inflate(R.layout.dialog_new_project, null)
+        val dialog = AlertDialog.Builder(this, R.style.CustomDialogCardTheme).setView(view).create()
+
+        val titleInput = view.findViewById<EditText>(R.id.edittextProjectTitle)
+        val closeBtn   = view.findViewById<ImageView>(R.id.imageviewCloseProject)
+        val saveBtn    = view.findViewById<Button>(R.id.buttonSaveProject)
+
+        closeBtn.setOnClickListener { dialog.dismiss() }
+        saveBtn.setOnClickListener {
+            val name = titleInput.text.toString().trim()
+            if (name.isNotEmpty()) {
+                TaskRepository.projects.getOrPut(name) { ArrayList() }
+                onPicked(name)
+                refreshList()
+                dialog.dismiss()
+                Toast.makeText(this, "Project \"$name\" created & selected", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Enter a project name", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        dialog.formatAsCustomCard(this)
+    }
     // ── NAV ───────────────────────────────────────────────────────────────────
 
     private fun setNavActive(active: String) {

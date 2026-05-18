@@ -81,7 +81,8 @@
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_alignParentEnd="true"
-            android:background="@drawable/add_task_button"
+            android:background="@null"
+            android:src="@drawable/add_task_button"
             android:contentDescription="Add Task"
             android:scaleType="fitCenter"/>
     </RelativeLayout>
